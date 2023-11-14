@@ -36,8 +36,8 @@ ELEM_TYPE elemUFS(UFSet ufset)
    return ufset->element;
 }
 
-
-int rank(UFSet ufset){
+int rank(UFSet ufset)
+{
    return ufset->altura;
 }
 
@@ -55,10 +55,24 @@ int rank(UFSet ufset){
 //    return findUFS(elem->padre); // sino que siga buscando en su misma rama
 // }
 
+/*
 UFSet findUFS(UFSet elem) { //MEJORA 1
    if (elem->padre != elem) // si el padre es distinto de si mismo => su nuevo padre es el distinguido del padre
    {
       elem->padre = findUFS(elem->padre);
+   }
+
+   return elem->padre; // devuelve su padre, ya sea si mismo o el distinguido de su padre.
+} // hacer con iteracion*/
+
+UFSet findUFS(UFSet elem)
+{ // primer recorrido para colgarlo de a y el segundo para borrar las anteriores.  cambiar altura por rango
+   
+   UFSet cur = elem->padre;
+   while (elem != cur)
+   {
+      elem->padre = cur->padre;
+      elem->padre->altura--;//?????????
    }
 
    return elem->padre; // devuelve su padre, ya sea si mismo o el distinguido de su padre.
@@ -75,17 +89,22 @@ UFSet findUFS(UFSet elem) { //MEJORA 1
 
 void unionUFS(UFSet ufset1, UFSet ufset2) // MEJORA1
 {
-   if (ufset1->altura > ufset2->altura)
+
+   UFSet d1 = findUFS(ufset1);
+   UFSet d2 = findUFS(ufset2);
+
+   if (d1->altura > d2->altura)
    {
-      ufset2->padre = findUFS(ufset1);
+      d2->padre = d1;
    }
-   else if (ufset2->altura > ufset1->altura)
+   else if (d2->altura > d1->altura)
    {
-      ufset1->padre = findUFS(ufset2);
+
+      d1->padre = d2;
    }
    else
    {
-      ufset2->padre = findUFS(ufset1);
-      findUFS(ufset1)->altura++;
+      d2->padre = d1;
+      d1->altura++;
    }
 }
