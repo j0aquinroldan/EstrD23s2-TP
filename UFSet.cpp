@@ -68,11 +68,13 @@ UFSet findUFS(UFSet elem) { //MEJORA 1
 UFSet findUFS(UFSet elem)
 { // primer recorrido para colgarlo de a y el segundo para borrar las anteriores.  cambiar altura por rango
    
-   UFSet cur = elem->padre;
-   while (elem != cur)
+   UFSet elem2 = elem;
+   UFSet cur = elem2->padre;
+   while (elem2 != cur)
    {
-      elem->padre = cur->padre;
-      elem->padre->altura--;//?????????
+      elem2 = elem2->padre;
+      elem->padre = elem2;
+      
    }
 
    return elem->padre; // devuelve su padre, ya sea si mismo o el distinguido de su padre.
@@ -97,7 +99,7 @@ void unionUFS(UFSet ufset1, UFSet ufset2) // MEJORA1
    {
       d2->padre = d1;
    }
-   else if (d2->altura > d1->altura)
+   if (d2->altura > d1->altura)
    {
 
       d1->padre = d2;
@@ -107,4 +109,9 @@ void unionUFS(UFSet ufset1, UFSet ufset2) // MEJORA1
       d2->padre = d1;
       d1->altura++;
    }
+}
+
+
+UFSet padre(UFSet uf){
+   return uf->padre;
 }
