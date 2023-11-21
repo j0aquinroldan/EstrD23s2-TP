@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Equipo.h"
-#include "UFSet.h"
+#include "UFSet.cpp"
 
 int main()
 {
@@ -25,29 +25,29 @@ int main()
 
   
 
-  // arbol de rango 3
+  // arbol de rango 2
   unionUFS(colS, chiS);
   unionUFS(argS, crS);
   unionUFS(argS, colS);
 
-  //arbol de rango 3
-
+  //arbol de rango 2
   unionUFS(prS,htS);
   unionUFS(uruS, bolS);
   unionUFS(uruS,prS);
 
 
+//arbol de rango 3
   unionUFS(argS, uruS);
 
   
-  cout << "padre ht(pre comp): " + nombreEquipo(elemUFS(padre(htS))) << endl;
-  cout << "padre pr(pre comp): " + nombreEquipo(elemUFS(padre(prS))) << endl;
+  cout << "padre ht(pre compresion): " + nombreEquipo(elemUFS(htS->padre)) << endl;
+  cout << "padre pr(pre compresion): " + nombreEquipo(elemUFS(prS->padre)) << endl;
 
   cout << "root ht: " + nombreEquipo(elemUFS(findUFS(htS))) << endl;
 
-  cout << "padre ht(post comp): " + nombreEquipo(elemUFS(padre(htS))) << endl;
+  cout << "padre ht(post compresion): " + nombreEquipo(elemUFS(htS->padre)) << endl;
 
-  cout << "padre pr(post comp): " + nombreEquipo(elemUFS(padre(prS))) << endl;
+  cout << "padre pr(post compresion): " + nombreEquipo(elemUFS(prS->padre)) << endl;
   cout << "elem: " + nombreEquipo(elemUFS(prS)) << endl;
 
 }

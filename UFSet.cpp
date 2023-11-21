@@ -12,11 +12,21 @@
  *  El nodo tiene un puntero a su elemento asociado en el campo element.
  *  Deberán agregarse los campos necesarios para completar la representación.
  */
+
+
+/*
+   INV REP:
+      * padre indica que nodo es su padre, si el mismo es el elemento distinguido del conjunto entonces es su propio padre, nunca puede ser NULL.
+      * element no puede ser NULL
+      * rango  equivale a la profundidad de su rama mas larga pre-compresion (unicamente se incrementa y no decrementa). 
+         Pertenece al conjunto de los numeros naturales.
+        
+*/
 struct UFNode
 {
    ELEM_TYPE element;
    UFNode *padre;
-   int altura;
+   int rango;
 };
 
 /*
@@ -27,7 +37,7 @@ UFSet createUFS(ELEM_TYPE value)
    UFSet ufs = new UFNode;
    ufs->element = value;
    ufs->padre = ufs;
-   ufs->altura = 0;
+   ufs->rango = 0;
    return ufs;
 }
 
@@ -38,46 +48,41 @@ ELEM_TYPE elemUFS(UFSet ufset)
 
 int rank(UFSet ufset)
 {
-   return ufset->altura;
+   return ufset->rango;
 }
 
 /*
  * Encuentra el elemento distinguido para el UFSet dado.
  * Esta operación puede ser optimizada con la técnica de compresión de camino.
  */
-// UFSet findUFS(UFSet elem)
-// {
-//    if (elem->padre == elem) // si el padre es igual a si mismo => es su propio padre
-//    {
-//       return elem;
-//    }
-
-//    return findUFS(elem->padre); // sino que siga buscando en su misma rama
-// }
-
 /*
-UFSet findUFS(UFSet elem) { //MEJORA 1
+UFSet findUFS(UFSet elem) { // recursiva sin compresion de camino.
    if (elem->padre != elem) // si el padre es distinto de si mismo => su nuevo padre es el distinguido del padre
    {
       elem->padre = findUFS(elem->padre);
    }
 
    return elem->padre; // devuelve su padre, ya sea si mismo o el distinguido de su padre.
-} // hacer con iteracion*/
+}*/
 
-UFSet findUFS(UFSet elem)
-{ // primer recorrido para colgarlo de a y el segundo para borrar las anteriores.  cambiar altura por rango
+
+
+UFSet findUFS(UFSet elem) // indexada con compresion de camino
+{ // primer recorrido para encontrar el distinguid y el segundo para hacer compresion de camino.  
    
-   UFSet elem2 = elem;
-   UFSet cur = elem2->padre;
-   while (elem2 != cur)
-   {
-      elem2 = elem2->padre;
-      elem->padre = elem2;
-      
-   }
 
-   return elem->padre; // devuelve su padre, ya sea si mismo o el distinguido de su padre.
+    UFSet dis = elem; // recorrido para encontrar el elemento distinguido del set
+    while (dis->padre != dis) { // se busca el ufset que sea su propio padre (raiz)
+        dis = dis->padre;
+    }
+
+    while (elem->padre != dis) { // recorrido para borrar los punteros de cada elemento y que ahora apunten al distinguido(path compression)
+        UFSet padre = elem->padre;
+        elem->padre = dis;
+        elem = padre;
+    }
+
+    return dis;
 }
 
 /*
@@ -89,29 +94,29 @@ UFSet findUFS(UFSet elem)
 //    findUFS(ufset1)->padre = ufset2;
 // }
 
-void unionUFS(UFSet ufset1, UFSet ufset2) // MEJORA1
+void unionUFS(UFSet ufset1, UFSet ufset2) // mejora union por rango (altura)
 {
 
+   // busca el distinguido de cada conjunto
    UFSet d1 = findUFS(ufset1);
    UFSet d2 = findUFS(ufset2);
 
-   if (d1->altura > d2->altura)
+   // si el rango de d1 es mayor al rango de d2, entonces d1 pasa a ser distinguido de ambos.
+   if (d1->rango > d2->rango)
    {
       d2->padre = d1;
    }
-   if (d2->altura > d1->altura)
+   // si el rango de d2 es mayor al rango de d1, entonces d2 pasa a ser distinguido de ambos.
+   if (d2->rango > d1->rango)
    {
 
       d1->padre = d2;
    }
+   // si tienen mismo rango, entonces d1 pasa a ser distinguido de ambos y se incrementa el rango.
    else
    {
       d2->padre = d1;
-      d1->altura++;
+      d1->rango++;
    }
 }
 
-
-UFSet padre(UFSet uf){
-   return uf->padre;
-}
