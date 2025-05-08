@@ -35,10 +35,10 @@ int main()
   unionUFS(uruS, bolS);
   unionUFS(uruS,prS);
 
-
+  cout<< argS->rango << endl;
 //arbol de rango 3
   unionUFS(argS, uruS);
-
+  cout<< argS->rango << endl;
   
   cout << "padre ht(pre compresion): " + nombreEquipo(elemUFS(htS->padre)) << endl;
   cout << "padre pr(pre compresion): " + nombreEquipo(elemUFS(prS->padre)) << endl;
@@ -50,4 +50,6 @@ int main()
   cout << "padre pr(post compresion): " + nombreEquipo(elemUFS(prS->padre)) << endl;
   cout << "elem: " + nombreEquipo(elemUFS(prS)) << endl;
 
+
+  cout<< argS->rango << endl;
 }
