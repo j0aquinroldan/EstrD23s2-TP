@@ -40,14 +40,14 @@ int main()
   unionUFS(argS, uruS);
 
   
-  cout << "padre ht(pre comp): " + nombreEquipo(elemUFS(padre(htS))) << endl;
-  cout << "padre pr(pre comp): " + nombreEquipo(elemUFS(padre(prS))) << endl;
+  // cout << "padre ht(pre comp): " + nombreEquipo(elemUFS(padre(htS))) << endl;
+  // cout << "padre pr(pre comp): " + nombreEquipo(elemUFS(padre(prS))) << endl;
 
-  cout << "root ht: " + nombreEquipo(elemUFS(findUFS(htS))) << endl;
+  // cout << "root ht: " + nombreEquipo(elemUFS(findUFS(htS))) << endl;
 
-  cout << "padre ht(post comp): " + nombreEquipo(elemUFS(padre(htS))) << endl;
+  // cout << "padre ht(post comp): " + nombreEquipo(elemUFS(padre(htS))) << endl;
 
-  cout << "padre pr(post comp): " + nombreEquipo(elemUFS(padre(prS))) << endl;
-  cout << "elem: " + nombreEquipo(elemUFS(prS)) << endl;
+  // cout << "padre pr(post comp): " + nombreEquipo(elemUFS(padre(prS))) << endl;
+  // cout << "elem: " + nombreEquipo(elemUFS(prS)) << endl;
 
 }
